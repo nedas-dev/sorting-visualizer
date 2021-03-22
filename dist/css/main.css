@@ -1,0 +1,38 @@
+body {
+  background-color: #e4e4e4; }
+  body #start {
+    margin: auto;
+    display: block;
+    width: 200px; }
+  body #visualizer {
+    margin: auto;
+    margin-top: 10rem;
+    width: 75vw;
+    height: 60vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    box-shadow: 10px 5px 10px #b6c2c9;
+    color: #ff8383; }
+    body #visualizer .container {
+      display: flex;
+      height: 100%;
+      width: 100%; }
+      body #visualizer .container .item {
+        display: flex;
+        background-color: white;
+        border: 1px solid #acc8f9;
+        border-right: none;
+        height: 100%;
+        width: 100%;
+        align-items: flex-end; }
+        body #visualizer .container .item div.sort {
+          width: 100%;
+          height: 15%;
+          background-color: #6b83e3; }
+          body #visualizer .container .item div.sort p {
+            height: 100%;
+            text-align: center;
+            color: #bcdcff;
+            font-size: 10px; }
+      body #visualizer .container .item:last-child {
+        border-right: 1px solid #acc8f9; }
