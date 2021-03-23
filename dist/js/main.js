@@ -14,6 +14,8 @@ const LIGHTRED = 'rgb(255, 131, 131)'
 const RED = 'rgb(235, 56, 16)'
 const SELECTION = 'selection'
 const INSERTION = 'insertion'
+const START = 'START'
+const CANCEL = 'CANCEL'
 
 class SortVisualizer {
     constructor(size) {
@@ -21,6 +23,7 @@ class SortVisualizer {
         this.algorithm = SELECTION
         this.items = []
         this.speed = 1
+        this.sorting = false
     }
 
     createRandomSortItems() {
@@ -49,6 +52,9 @@ class SortVisualizer {
                 let minValItemIndex = null
                 await sleep(150 * this.speed)
                 for (let j = i + 1; j < this.size; j++) {
+                    if (this.sorting == false) {
+                        return
+                    }
                     let currentItemInner = allItems[j]
                     currentItemInner.style.backgroundColor = BLUE // blue for searching color
                     await sleep(100 * this.speed)
@@ -78,6 +84,7 @@ class SortVisualizer {
                 }
                 currentItem.style.backgroundColor = BLUE // blue
             }
+            startBtn.textContent = START
         }
         runSlowDown()
     }
@@ -88,6 +95,9 @@ class SortVisualizer {
             for (let i = 1; i < this.size; i++) {
                 await sleep(150 * this.speed)
                 for (let j = i; j > 0; j--) {
+                    if (this.sorting == false) {
+                        return
+                    }
                     let currentItemInner = allItems[j]
                     currentItemInner.style.backgroundColor = LIGHTRED
                     await sleep(100 * this.speed)
@@ -110,20 +120,31 @@ class SortVisualizer {
                     }
                 }
             }
+            startBtn.textContent = START
         }
         runSlowDown()
     }
 
 }
 
-// When pressed 'start' this func checks which algorithm to run for sorting
+// START and CANCEL buttons (start sorting and stop sorting functions)
 startBtn.addEventListener('click', function (e) {
     e.preventDefault()
-    if (sortVisualizer.algorithm == INSERTION) {
-        sortVisualizer.insertionSort()
+
+    if (e.target.textContent == START) {
+        sortVisualizer.sorting = true
+        e.target.textContent = CANCEL
+
+        if (sortVisualizer.algorithm == INSERTION) {
+            sortVisualizer.insertionSort()
+        }
+        else if (sortVisualizer.algorithm == SELECTION) {
+            sortVisualizer.selectionSort()
+        }
     }
-    else if (sortVisualizer.algorithm == SELECTION) {
-        sortVisualizer.selectionSort()
+    else if (e.target.textContent == CANCEL) {
+        sortVisualizer.sorting = false
+        e.target.textContent = START
     }
 })
 

@@ -14,8 +14,12 @@ body{
             height: 35px;
             width: 100px;
             letter-spacing: 2px;
+            background-color: rgb(107, 131, 227);
+            color:white;
             &:hover{
-                background-color: rgb(107, 131, 227);
+                background-color: white;
+                color: black;
+                cursor: pointer;
             }
         }
         div.algo{
@@ -30,7 +34,7 @@ body{
                 background-color: rgb(235, 235, 235);
             }
         }
-        div.adjust{
+        div.basicAdjustBtn{
             text-align: center;
             border: 1px solid rgb(208, 202, 202);
             border-radius: 5px;

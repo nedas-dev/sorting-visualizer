@@ -13,9 +13,13 @@ body {
     body div#menu button.start {
       height: 35px;
       width: 100px;
-      letter-spacing: 2px; }
+      letter-spacing: 2px;
+      background-color: #6b83e3;
+      color: white; }
       body div#menu button.start:hover {
-        background-color: #6b83e3; }
+        background-color: white;
+        color: black;
+        cursor: pointer; }
     body div#menu div.algo {
       height: 35px;
       width: 150px;
@@ -26,11 +30,11 @@ body {
         height: 100%;
         letter-spacing: 2px;
         background-color: #ebebeb; }
-    body div#menu div.adjust {
+    body div#menu div.basicAdjustBtn {
       text-align: center;
       border: 1px solid #d0caca;
       border-radius: 5px; }
-      body div#menu div.adjust input:hover {
+      body div#menu div.basicAdjustBtn input:hover {
         cursor: pointer; }
   body #visualizer {
     margin: auto;
