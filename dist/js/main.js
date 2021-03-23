@@ -3,9 +3,10 @@ const sleep = (milliseconds) => {
 }
 const visualizer = document.getElementById('visualizer');
 const visualizerContainer = visualizer.querySelector('div.container')
-const startBtn = document.getElementById('start')
+const startBtn = document.querySelector('button.start')
 const selectBtn = document.querySelector('select.algorithm')
-
+const speedInput = document.querySelector('input.speed')
+const arraySizeInput = document.querySelector('input.size')
 
 const BLUE = 'blue';
 const LIGHTBLUE = 'rgb(107, 131, 227)'
@@ -19,7 +20,7 @@ class SortVisualizer {
         this.size = size;
         this.algorithm = SELECTION
         this.items = []
-        this.speed = 0.2
+        this.speed = 1
     }
 
     createRandomSortItems() {
@@ -46,11 +47,11 @@ class SortVisualizer {
                 var compareItem = null
                 currentItem.style.backgroundColor = RED //almost solid red for current number
                 let minValItemIndex = null
-                await sleep(100 * this.speed)
+                await sleep(150 * this.speed)
                 for (let j = i + 1; j < this.size; j++) {
                     let currentItemInner = allItems[j]
                     currentItemInner.style.backgroundColor = BLUE // blue for searching color
-                    await sleep(50 * this.speed)
+                    await sleep(100 * this.speed)
                     currentItemInner.style.backgroundColor = LIGHTBLUE // blue for back to normal after search was done for an element
                     if (minVal > this.items[j]) {
                         minVal = this.items[j]
@@ -85,11 +86,11 @@ class SortVisualizer {
         const runSlowDown = async () => {
             allItems[0].style.backgroundColor = BLUE
             for (let i = 1; i < this.size; i++) {
-                await sleep(100 * this.speed)
+                await sleep(150 * this.speed)
                 for (let j = i; j > 0; j--) {
                     let currentItemInner = allItems[j]
                     currentItemInner.style.backgroundColor = LIGHTRED
-                    await sleep(50 * this.speed)
+                    await sleep(100 * this.speed)
                     if (this.items[j - 1] > this.items[j]) {
                         let currentNeigborItem = allItems[j - 1]
                         currentNeigborItem.style.backgroundColor = LIGHTRED
@@ -134,6 +135,22 @@ selectBtn.addEventListener('change', function (e) {
     else if (e.target.value == INSERTION) {
         sortVisualizer.algorithm = INSERTION
     }
+})
+
+// Event listener for changing sort speed
+speedInput.addEventListener('change', function (e) {
+    sortVisualizer.speed = 1 - e.target.value / 80
+})
+
+// Event listener for changing array size
+arraySizeInput.addEventListener('change', function (e) {
+    sortVisualizer.size = e.target.value
+    const allItems = visualizerContainer.getElementsByClassName('item')
+    while (allItems.length > 0) {
+        allItems[0].remove()
+    }
+    sortVisualizer.items = []
+    sortVisualizer.createRandomSortItems()
 })
 
 sortVisualizer = new SortVisualizer(50);

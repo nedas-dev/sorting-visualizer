@@ -8,11 +8,25 @@
 </head>
 
 <body>
-    <button id='start'>Start</button>
-    <select name="algorithm" class='algorithm'>
-        <option value="selection">Selection Sort</option>
-        <option value="insertion">Insertion Sort</option>
-    </select>
+    <div id="menu">
+        <div class="adjust speedDiv">
+            <p>Sort speed</p>
+            <input type="range" min="1" max="100" value="50" class="speed">
+        </div>
+        <div class="adjust arraySizeDiv">
+            <p>Array size</p>
+            <input type="range" min="10" max="200" value="50" class="size">
+        </div>
+        <div class="algo">
+            <select name="algorithm" class='algorithm'>
+                <option value="selection">Selection Sort</option>
+                <option value="insertion">Insertion Sort</option>
+            </select>
+        </div>
+        <button class='start'>Start</button>
+
+    </div>
+
     <div id="visualizer">
         <div class="container">
         </div>
