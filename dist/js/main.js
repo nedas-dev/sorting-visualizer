@@ -27,15 +27,33 @@ class SortVisualizer {
     }
 
     createRandomSortItems() {
+        this.items = []
+        const allItems = visualizerContainer.getElementsByClassName('item')
+        while (allItems.length > 0) {
+            allItems[0].remove()
+        }
         for (let i = 0; i < this.size; i++) {
             let itemDiv = document.createElement('div')
             let sortDiv = document.createElement('div')
-            itemDiv.className = 'item'
+
+            itemDiv.className = `item`
             sortDiv.className = `sort`;
 
-            let randInt = Math.random();
-            sortDiv.style.height = `${randInt * 100}%`;
-            this.items.push(randInt * 100)
+            let randInt = (Math.random() * 100).toFixed(2);
+
+            sortDiv.style.height = `${randInt}%`;
+            this.items.push(randInt)
+            // while hover a sort item shows the value of it
+            let infoSpan = document.createElement('span')
+            infoSpan.className = `infoSpan visible${i}`
+            infoSpan.style.visibility = 'hidden'
+            infoSpan.textContent = `${randInt}`
+            itemDiv.appendChild(infoSpan)
+            let triangleSpan = document.createElement('span')
+            triangleSpan.className = `triangle visible${i}`
+            triangleSpan.style.visibility = 'hidden'
+            itemDiv.appendChild(triangleSpan)
+            // END - while hover a sort item shows the value of it
             itemDiv.appendChild(sortDiv)
             visualizerContainer.appendChild(itemDiv)
         }
@@ -145,6 +163,7 @@ startBtn.addEventListener('click', function (e) {
     else if (e.target.textContent == CANCEL) {
         sortVisualizer.sorting = false
         e.target.textContent = START
+        sortVisualizer.createRandomSortItems()
     }
 })
 
@@ -166,13 +185,27 @@ speedInput.addEventListener('change', function (e) {
 // Event listener for changing array size
 arraySizeInput.addEventListener('change', function (e) {
     sortVisualizer.size = e.target.value
-    const allItems = visualizerContainer.getElementsByClassName('item')
-    while (allItems.length > 0) {
-        allItems[0].remove()
-    }
-    sortVisualizer.items = []
     sortVisualizer.createRandomSortItems()
 })
+
+// -------------- hover over sort elements for value info -----------
+visualizer.addEventListener('mouseover', function (e) {
+    if (e.target.className == 'sort') {
+        let childrenNodes = e.target.parentElement.childNodes
+        childrenNodes[0].style.visibility = 'visible'
+        childrenNodes[1].style.visibility = 'visible'
+    }
+})
+
+visualizer.addEventListener('mouseout', function (e) {
+    if (e.target.className == 'sort') {
+        let childrenNodes = e.target.parentElement.childNodes
+        childrenNodes[0].style.visibility = 'hidden'
+        childrenNodes[1].style.visibility = 'hidden'
+    }
+})
+// ------------------------------------------------------------
+
 
 sortVisualizer = new SortVisualizer(50);
 
