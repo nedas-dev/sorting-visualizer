@@ -9,23 +9,25 @@
 
 <body>
     <div id="menu">
-        <div class="basicAdjustBtn">
+        <div class="basicAdjustBtn sortSpeed">
             <p>Sort speed</p>
             <input type="range" min="1" max="100" value="50" class="speed">
         </div>
-        <div class="basicAdjustBtn">
+        <div class="basicAdjustBtn arraySize">
             <p>Array size</p>
             <input type="range" min="10" max="200" value="50" class="size">
         </div>
         <div class="algo">
             <select name="algorithm" class='algorithm'>
-                <option value="selection">Selection Sort</option>
-                <option value="insertion">Insertion Sort</option>
+                <option value="SELECTION">Selection Sort</option>
+                <option value="INSERTION">Insertion Sort</option>
             </select>
         </div>
         <button class='start'>START</button>
 
     </div>
+
+    <button onclick="sortVisualizer.createRandomSortItems()" class="generate">Generate New Array</button>
 
     <div id="visualizer">
         <div class="container">

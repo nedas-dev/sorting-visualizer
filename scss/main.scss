@@ -6,7 +6,7 @@ body{
         align-items: center;
         border: 1px solid rgb(198, 160, 160);
         padding: 1rem;
-        margin-bottom: 5rem;
+        margin-bottom: 2rem;
         border-radius: 50px;
         box-shadow: 3px 5px 8px rgb(160, 160, 160);
         letter-spacing: 2px;
@@ -43,6 +43,26 @@ body{
             }
         }
     }
+
+    button.generate{
+        letter-spacing: 1px;
+        display:block;
+        margin:auto;
+        padding: 0.5rem 4rem;
+        cursor: pointer;
+        margin-bottom: 1rem;
+        border-radius: 5px;
+        border: 1px solid rgb(107, 131, 227);
+        &:hover:enabled{
+            background-color: rgb(107, 131, 227);
+            border: 1px solid blue;
+            color: snow;
+        }
+        &:disabled{
+            border: 1px solid grey;
+        }
+    }
+
     #visualizer{
         margin: auto;
         width: 75vw;
@@ -77,7 +97,7 @@ body{
                 span.infoSpan{
                     vertical-align: baseline;
                     position: absolute;
-                    top: -3rem;
+                    top: -3.5rem;
                     text-align: center;
                     width: 100px;
                     color: rgb(255, 255, 255);
@@ -98,7 +118,7 @@ body{
                     width: 25px;
                     height: 25px;
                     background-color: rgb(135, 135, 135);
-                    top: -2.2rem;
+                    top: -2.7rem;
                     left: -0.3rem;
                     transform: rotate(45deg);
                     z-index: 1;

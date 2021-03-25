@@ -7,13 +7,15 @@ const startBtn = document.querySelector('button.start')
 const selectBtn = document.querySelector('select.algorithm')
 const speedInput = document.querySelector('input.speed')
 const arraySizeInput = document.querySelector('input.size')
+const generateNewArrayBtn = document.querySelector('button.generate')
+
 
 const BLUE = 'blue';
 const LIGHTBLUE = 'rgb(107, 131, 227)'
 const LIGHTRED = 'rgb(255, 131, 131)'
 const RED = 'rgb(235, 56, 16)'
-const SELECTION = 'selection'
-const INSERTION = 'insertion'
+const SELECTION = 'SELECTION'
+const INSERTION = 'INSERTION'
 const START = 'START'
 const CANCEL = 'CANCEL'
 
@@ -27,11 +29,13 @@ class SortVisualizer {
     }
 
     createRandomSortItems() {
+        // Delete old sort elements
         this.items = []
-        const allItems = visualizerContainer.getElementsByClassName('item')
-        while (allItems.length > 0) {
-            allItems[0].remove()
+        const sortItems = visualizerContainer.getElementsByClassName('item')
+        while (sortItems.length > 0) {
+            sortItems[sortItems.length - 1].remove()
         }
+        // END - Delete old sort elements
         for (let i = 0; i < this.size; i++) {
             let itemDiv = document.createElement('div')
             let sortDiv = document.createElement('div')
@@ -39,28 +43,30 @@ class SortVisualizer {
             itemDiv.className = `item`
             sortDiv.className = `sort`;
 
-            let randInt = (Math.random() * 100).toFixed(2);
+            let randInt = parseFloat((Math.random() * 100).toFixed(2));
 
             sortDiv.style.height = `${randInt}%`;
-            this.items.push(parseFloat(randInt))
-            // while hover a sort item shows the value of it
+            this.items.push(randInt)
+
+            // when HOVERED sort element - its' value appears
             let infoSpan = document.createElement('span')
-            infoSpan.className = `infoSpan visible${i}`
+            infoSpan.className = `infoSpan`
             infoSpan.style.visibility = 'hidden'
             infoSpan.textContent = `${randInt}`
             itemDiv.appendChild(infoSpan)
             let triangleSpan = document.createElement('span')
-            triangleSpan.className = `triangle visible${i}`
+            triangleSpan.className = `triangle`
             triangleSpan.style.visibility = 'hidden'
             itemDiv.appendChild(triangleSpan)
-            // END - while hover a sort item shows the value of it
+            // END - when HOVERED sort element - its' value appears
+
             itemDiv.appendChild(sortDiv)
             visualizerContainer.appendChild(itemDiv)
         }
-        console.log(this.items)
     }
 
     selectionSort() {
+        this.disableButtonsOnSorting()
         const allItems = visualizerContainer.getElementsByClassName('sort');
         const runSlowDown = async () => {
             for (let i = 0; i < this.size; i++) {
@@ -97,17 +103,22 @@ class SortVisualizer {
                     currentItem.style.height = `${this.items[minValItemIndex]}%`
                     compareItem.style.height = `${this.items[i]}%`
                     let temp = this.items[i]
-                    // swap (update) the values in our local list
+                    // swap (update) the values in our local array
                     this.items[i] = this.items[minValItemIndex]
                     this.items[minValItemIndex] = temp
+                    // update the infoSpan value (when hovered sort element)
+                    currentItem.parentElement.childNodes[0].textContent = `${this.items[i]}`
+                    compareItem.parentElement.childNodes[0].textContent = `${this.items[minValItemIndex]}`
                 }
                 currentItem.style.backgroundColor = BLUE // blue
             }
             startBtn.textContent = START
+            this.enableButtonsOffSorting()
         }
         runSlowDown()
     }
     insertionSort() {
+        this.disableButtonsOnSorting()
         const allItems = visualizerContainer.getElementsByClassName('sort');
         const runSlowDown = async () => {
             allItems[0].style.backgroundColor = BLUE
@@ -120,9 +131,11 @@ class SortVisualizer {
                     let currentItemInner = allItems[j]
                     currentItemInner.style.backgroundColor = LIGHTRED
                     await sleep(100 * this.speed)
+                    // if item to the left is bigger swap them
                     if (this.items[j - 1] > this.items[j]) {
                         let currentNeigborItem = allItems[j - 1]
                         currentNeigborItem.style.backgroundColor = LIGHTRED
+                        // fixed bug (first element did not change the color after sorting)
                         if (j - 1 == 0) {
                             currentNeigborItem.style.backgroundColor = BLUE
                         }
@@ -132,6 +145,9 @@ class SortVisualizer {
                         let temp = this.items[j]
                         this.items[j] = this.items[j - 1]
                         this.items[j - 1] = temp
+                        // update the infoSpan value (when hovered sort element)
+                        currentItemInner.parentElement.childNodes[0].textContent = `${this.items[j]}`
+                        currentNeigborItem.parentElement.childNodes[0].textContent = `${this.items[j - 1]}`
                     }
                     else {
                         currentItemInner.style.backgroundColor = BLUE
@@ -140,9 +156,21 @@ class SortVisualizer {
                 }
             }
             startBtn.textContent = START
-            console.log(this.items)
+            this.enableButtonsOffSorting()
         }
         runSlowDown()
+    }
+
+    disableButtonsOnSorting() {
+        arraySizeInput.disabled = true
+        generateNewArrayBtn.disabled = true
+        selectBtn.disabled = true
+    }
+
+    enableButtonsOffSorting() {
+        arraySizeInput.disabled = false
+        generateNewArrayBtn.disabled = false
+        selectBtn.disabled = false
     }
 
 }
@@ -165,6 +193,7 @@ startBtn.addEventListener('click', function (e) {
     else if (e.target.textContent == CANCEL) {
         sortVisualizer.sorting = false
         e.target.textContent = START
+        sortVisualizer.enableButtonsOffSorting()
         sortVisualizer.createRandomSortItems()
     }
 })
@@ -196,6 +225,9 @@ visualizer.addEventListener('mouseover', function (e) {
         let childrenNodes = e.target.parentElement.childNodes
         childrenNodes[0].style.visibility = 'visible'
         childrenNodes[1].style.visibility = 'visible'
+
+        e.target.parentElement.style.opacity = '0.7'
+
     }
 })
 
@@ -204,6 +236,8 @@ visualizer.addEventListener('mouseout', function (e) {
         let childrenNodes = e.target.parentElement.childNodes
         childrenNodes[0].style.visibility = 'hidden'
         childrenNodes[1].style.visibility = 'hidden'
+
+        e.target.parentElement.style.opacity = '1'
     }
 })
 // ------------------------------------------------------------
