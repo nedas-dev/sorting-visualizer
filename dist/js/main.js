@@ -42,7 +42,7 @@ class SortVisualizer {
             let randInt = (Math.random() * 100).toFixed(2);
 
             sortDiv.style.height = `${randInt}%`;
-            this.items.push(randInt)
+            this.items.push(parseFloat(randInt))
             // while hover a sort item shows the value of it
             let infoSpan = document.createElement('span')
             infoSpan.className = `infoSpan visible${i}`
@@ -57,6 +57,7 @@ class SortVisualizer {
             itemDiv.appendChild(sortDiv)
             visualizerContainer.appendChild(itemDiv)
         }
+        console.log(this.items)
     }
 
     selectionSort() {
@@ -139,6 +140,7 @@ class SortVisualizer {
                 }
             }
             startBtn.textContent = START
+            console.log(this.items)
         }
         runSlowDown()
     }
