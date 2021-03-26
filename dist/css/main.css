@@ -60,7 +60,8 @@ body {
     body #visualizer .container {
       display: flex;
       height: 100%;
-      width: 100%; }
+      width: 100%;
+      position: relative; }
       body #visualizer .container .item {
         display: flex;
         background-color: white;
@@ -111,3 +112,11 @@ body {
           opacity: 0.6; }
       body #visualizer .container .item:last-child {
         border-right: 1px solid #acc8f9; }
+      body #visualizer .container p.h {
+        position: absolute;
+        top: -1rem;
+        left: 0.3rem;
+        z-index: 2;
+        letter-spacing: 1px;
+        font-family: sans-serif;
+        color: red; }

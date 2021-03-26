@@ -16,6 +16,7 @@ const LIGHTRED = 'rgb(255, 131, 131)'
 const RED = 'rgb(235, 56, 16)'
 const SELECTION = 'SELECTION'
 const INSERTION = 'INSERTION'
+const SHELLSORT = 'SHELLSORT'
 const START = 'START'
 const CANCEL = 'CANCEL'
 
@@ -66,7 +67,7 @@ class SortVisualizer {
     }
 
     selectionSort() {
-        this.disableButtonsOnSorting()
+        this.disableButtonsWhenSortingOn()
         const allItems = visualizerContainer.getElementsByClassName('sort');
         const runSlowDown = async () => {
             for (let i = 0; i < this.size; i++) {
@@ -113,12 +114,12 @@ class SortVisualizer {
                 currentItem.style.backgroundColor = BLUE // blue
             }
             startBtn.textContent = START
-            this.enableButtonsOffSorting()
+            this.enableButtonsWhenSortingOff()
         }
         runSlowDown()
     }
     insertionSort() {
-        this.disableButtonsOnSorting()
+        this.disableButtonsWhenSortingOn()
         const allItems = visualizerContainer.getElementsByClassName('sort');
         const runSlowDown = async () => {
             allItems[0].style.backgroundColor = BLUE
@@ -140,8 +141,8 @@ class SortVisualizer {
                             currentNeigborItem.style.backgroundColor = BLUE
                         }
                         currentNeigborItem.style.height = `${this.items[j]}%`
-                        currentItemInner.style.backgroundColor = BLUE
                         currentItemInner.style.height = `${this.items[j - 1]}%`
+                        currentItemInner.style.backgroundColor = BLUE
                         let temp = this.items[j]
                         this.items[j] = this.items[j - 1]
                         this.items[j - 1] = temp
@@ -156,18 +157,85 @@ class SortVisualizer {
                 }
             }
             startBtn.textContent = START
-            this.enableButtonsOffSorting()
+            this.enableButtonsWhenSortingOff()
         }
         runSlowDown()
     }
 
-    disableButtonsOnSorting() {
+    shellSort() {
+        this.disableButtonsWhenSortingOn()
+        const allItems = visualizerContainer.getElementsByClassName('sort');
+        const runSlowDown = async () => {
+            const n = this.size
+            let h = 1
+            while (h < Math.floor(n / 3)) {
+                h = 3 * h + 1
+            }
+            let hElement = document.querySelector('p.h')
+            hElement.style.display = 'block'
+            hElement.textContent = `h = ${h}`
+            while (h >= 1) {
+                hElement.textContent = `h = ${h}`
+                for (let i = h; i < n; i++) {
+                    await sleep(100 * this.speed)
+                    allItems[i].style.backgroundColor = RED
+                    for (let j = i; j >= h; j -= h) {
+                        if (this.sorting == false) {
+                            hElement.style.display = 'None'
+                            return
+                        }
+                        allItems[j].style.backgroundColor = RED
+                        allItems[j - h].style.backgroundColor = LIGHTRED
+                        await sleep(100 * this.speed)
+                        allItems[j].style.backgroundColor = LIGHTBLUE
+                        allItems[j - h].style.backgroundColor = LIGHTBLUE
+                        if (this.items[j - h] > this.items[j]) {
+                            await sleep(100 * this.speed)
+                            allItems[j - h].style.height = `${this.items[j]}%`
+                            allItems[j].style.height = `${this.items[j - h]}%`
+
+                            // update the infoSpan value (when hovered sort element)
+                            allItems[j].parentElement.childNodes[0].textContent = `${this.items[j - h]}`
+                            allItems[j - h].parentElement.childNodes[0].textContent = `${this.items[j]}`
+
+                            let temp = this.items[j]
+                            this.items[j] = this.items[j - h]
+                            this.items[j - h] = temp
+                        }
+                        else {
+                            break
+                        }
+
+
+                    }
+                    allItems[i].style.backgroundColor = LIGHTBLUE
+
+
+                }
+                h = Math.floor(h / 3)
+            }
+            for (let i = 0; i < this.size; i++) {
+                await sleep(10)
+                if (i > Math.floor(this.size / 2)) {
+                    break
+                }
+                allItems[i].style.backgroundColor = BLUE
+                allItems[this.size - 1 - i].style.backgroundColor = BLUE
+            }
+            hElement.style.display = 'None'
+            startBtn.textContent = START
+            this.enableButtonsWhenSortingOff()
+        }
+        runSlowDown()
+    }
+
+    disableButtonsWhenSortingOn() {
         arraySizeInput.disabled = true
         generateNewArrayBtn.disabled = true
         selectBtn.disabled = true
     }
 
-    enableButtonsOffSorting() {
+    enableButtonsWhenSortingOff() {
         arraySizeInput.disabled = false
         generateNewArrayBtn.disabled = false
         selectBtn.disabled = false
@@ -189,11 +257,14 @@ startBtn.addEventListener('click', function (e) {
         else if (sortVisualizer.algorithm == SELECTION) {
             sortVisualizer.selectionSort()
         }
+        else if (sortVisualizer.algorithm == SHELLSORT) {
+            sortVisualizer.shellSort()
+        }
     }
     else if (e.target.textContent == CANCEL) {
         sortVisualizer.sorting = false
         e.target.textContent = START
-        sortVisualizer.enableButtonsOffSorting()
+        sortVisualizer.enableButtonsWhenSortingOff()
         sortVisualizer.createRandomSortItems()
     }
 })
@@ -205,6 +276,9 @@ selectBtn.addEventListener('change', function (e) {
     }
     else if (e.target.value == INSERTION) {
         sortVisualizer.algorithm = INSERTION
+    }
+    else if (e.target.value == SHELLSORT) {
+        sortVisualizer.algorithm = SHELLSORT
     }
 })
 

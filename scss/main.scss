@@ -74,6 +74,7 @@ body{
             display: flex;
             height: 100%;
             width: 100%;
+            position: relative;
             .item{
                 display: flex;
                 background-color: rgb(255, 255, 255);
@@ -129,6 +130,15 @@ body{
             }
             .item:last-child{
                 border-right: 1px solid rgb(172, 200, 249);
+            }
+            p.h{
+                position: absolute;
+                top: -1rem;
+                left: 0.3rem;
+                z-index: 2;
+                letter-spacing: 1px;
+                font-family: sans-serif;
+                color: red;
             }
         }
     }
