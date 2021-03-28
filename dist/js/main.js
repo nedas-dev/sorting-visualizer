@@ -17,6 +17,7 @@ const RED = 'rgb(235, 56, 16)'
 const SELECTION = 'SELECTION'
 const INSERTION = 'INSERTION'
 const SHELLSORT = 'SHELLSORT'
+const MERGESORT = 'MERGESORT'
 const START = 'START'
 const CANCEL = 'CANCEL'
 
@@ -229,6 +230,86 @@ class SortVisualizer {
         runSlowDown()
     }
 
+    mergeSort() {
+        async function sort(a, aux, low, high, counter, colors) {
+            if (sortVisualizer.sorting == false) {
+                return
+            }
+            if (high <= low) {
+                return
+            }
+
+            let mid = low + Math.floor((high - low) / 2)
+            await sort(a, aux, low, mid, counter, colors)
+            await sort(a, aux, mid + 1, high, counter, colors)
+            await merge(a, aux, low, mid, high, counter, colors)
+        }
+        async function merge(a, aux, low, mid, high, counter, colors) {
+            if (sortVisualizer.sorting == false) {
+                return
+            }
+            for (let i = low; i <= high; i++) {
+                aux[i] = a[i]
+            }
+            let x = low
+            let y = mid + 1
+            if (counter[0] == 3) {
+                counter[0] = 0
+            }
+            for (let k = low; k <= high; k++) {
+                allItems[k].style.backgroundColor = colors[counter]
+            }
+            counter[0] += 1
+            for (let j = low; j <= high; j++) {
+                if (x > mid) {
+                    a[j] = aux[y]
+                    allItems[j].style.height = `${aux[y]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[y]}`
+
+                    y += 1
+                }
+                else if (y > high) {
+                    a[j] = aux[x]
+                    allItems[j].style.height = `${aux[x]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[x]}`
+                    x += 1
+                }
+                else if (aux[x] < aux[y]) {
+                    a[j] = aux[x]
+                    allItems[j].style.height = `${aux[x]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[x]}`
+                    x += 1
+                }
+                else {
+                    a[j] = aux[y]
+                    allItems[j].style.height = `${aux[y]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[y]}`
+                    y += 1
+                }
+                await sleep(150 * sortVisualizer.speed)
+            }
+        }
+        this.disableButtonsWhenSortingOn()
+        const allItems = visualizerContainer.getElementsByClassName('sort');
+        const runSlowDown = async () => {
+            let low = 0
+            let high = this.size - 1
+            let aux = [...this.items]
+            let counter = [0]
+            let colors = [LIGHTRED, RED, BLUE]
+            let mid = low + Math.floor((high - low) / 2)
+            await sort(this.items, aux, low, mid, counter, colors)
+            await sort(this.items, aux, mid + 1, high, counter, colors)
+            await merge(this.items, aux, low, mid, high, counter, colors)
+            for (let i = 0; i < this.size; i++) {
+                allItems[i].style.backgroundColor = BLUE
+            }
+            startBtn.textContent = START
+            this.enableButtonsWhenSortingOff()
+        }
+        runSlowDown()
+    }
+
     disableButtonsWhenSortingOn() {
         arraySizeInput.disabled = true
         generateNewArrayBtn.disabled = true
@@ -260,6 +341,9 @@ startBtn.addEventListener('click', function (e) {
         else if (sortVisualizer.algorithm == SHELLSORT) {
             sortVisualizer.shellSort()
         }
+        else if (sortVisualizer.algorithm == MERGESORT) {
+            sortVisualizer.mergeSort()
+        }
     }
     else if (e.target.textContent == CANCEL) {
         sortVisualizer.sorting = false
@@ -279,6 +363,9 @@ selectBtn.addEventListener('change', function (e) {
     }
     else if (e.target.value == SHELLSORT) {
         sortVisualizer.algorithm = SHELLSORT
+    }
+    else if (e.target.value == MERGESORT) {
+        sortVisualizer.algorithm = MERGESORT
     }
 })
 
