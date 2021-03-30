@@ -14,10 +14,15 @@ const BLUE = 'blue';
 const LIGHTBLUE = 'rgb(107, 131, 227)'
 const LIGHTRED = 'rgb(255, 131, 131)'
 const RED = 'rgb(235, 56, 16)'
+const GREEN = 'green'
+const GREY = 'grey'
+const BLACK = 'black'
 const SELECTION = 'SELECTION'
 const INSERTION = 'INSERTION'
 const SHELLSORT = 'SHELLSORT'
 const MERGESORT = 'MERGESORT'
+const MERGESORTNOTRECURSIVE = 'MERGESORT-NOT-RECURSIVE'
+const QUICKSORT = 'QUICKSORT'
 const START = 'START'
 const CANCEL = 'CANCEL'
 
@@ -245,22 +250,26 @@ class SortVisualizer {
             await merge(a, aux, low, mid, high, counter, colors)
         }
         async function merge(a, aux, low, mid, high, counter, colors) {
-            if (sortVisualizer.sorting == false) {
-                return
-            }
             for (let i = low; i <= high; i++) {
                 aux[i] = a[i]
             }
             let x = low
             let y = mid + 1
-            if (counter[0] == 3) {
+            if (counter[0] == 2) {
                 counter[0] = 0
             }
-            for (let k = low; k <= high; k++) {
+            for (let k = low; k <= mid; k++) {
+                allItems[k].style.backgroundColor = colors[counter]
+            }
+            counter[0] += 1
+            for (let k = mid + 1; k <= high; k++) {
                 allItems[k].style.backgroundColor = colors[counter]
             }
             counter[0] += 1
             for (let j = low; j <= high; j++) {
+                if (sortVisualizer.sorting == false) {
+                    return
+                }
                 if (x > mid) {
                     a[j] = aux[y]
                     allItems[j].style.height = `${aux[y]}%`
@@ -296,7 +305,7 @@ class SortVisualizer {
             let high = this.size - 1
             let aux = [...this.items]
             let counter = [0]
-            let colors = [LIGHTRED, RED, BLUE]
+            let colors = [GREY, BLACK]
             let mid = low + Math.floor((high - low) / 2)
             await sort(this.items, aux, low, mid, counter, colors)
             await sort(this.items, aux, mid + 1, high, counter, colors)
@@ -309,6 +318,191 @@ class SortVisualizer {
         }
         runSlowDown()
     }
+
+    mergeSortNotRecursive() {
+        async function merge(a, aux, low, mid, high, counter, colors) {
+            for (let i = low; i <= high; i++) {
+                aux[i] = a[i]
+            }
+            let x = low
+            let y = mid + 1
+            if (counter[0] == 2) {
+                counter[0] = 0
+            }
+
+            for (let j = low; j <= high; j++) {
+                if (sortVisualizer.sorting == false) {
+                    return
+                }
+                if (x > mid) {
+                    a[j] = aux[y]
+                    allItems[j].style.height = `${aux[y]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[y]}`
+                    y += 1
+                }
+                else if (y > high) {
+                    a[j] = aux[x]
+                    allItems[j].style.height = `${aux[x]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[x]}`
+                    x += 1
+                }
+                else if (aux[x] < aux[y]) {
+                    a[j] = aux[x]
+                    allItems[j].style.height = `${aux[x]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[x]}`
+
+                    x += 1
+                }
+                else {
+                    a[j] = aux[y]
+                    allItems[j].style.height = `${aux[y]}%`
+                    allItems[j].parentElement.childNodes[0].textContent = `${aux[y]}`
+                    y += 1
+                }
+                // for better visualization on which array element / piece we are currently working (light red color)
+                allItems[j].style.backgroundColor = LIGHTRED
+                await sleep(250 * sortVisualizer.speed)
+
+            }
+            // Each time change the color for better visualization (black/grey switching)
+            for (let k = low; k <= high; k++) {
+                allItems[k].style.backgroundColor = colors[counter]
+            }
+            counter[0] += 1
+        }
+        this.disableButtonsWhenSortingOn()
+        const allItems = visualizerContainer.getElementsByClassName('sort');
+        const runSlowDown = async () => {
+            let counter = [0]
+            let colors = [GREY, BLACK]
+
+            let n = this.size
+            let aux = [...this.items]
+
+            for (let len = 1; len < n; len *= 2) {
+                for (let low = 0; low < n - len; low += len + len) {
+                    if (sortVisualizer.sorting == false) {
+                        return
+                    }
+                    await merge(this.items, aux, low, low + len - 1, Math.min(low + len + len - 1, n - 1), counter, colors)
+                }
+            }
+
+            for (let i = 0; i < this.size; i++) {
+                allItems[i].style.backgroundColor = BLUE
+            }
+            startBtn.textContent = START
+            this.enableButtonsWhenSortingOff()
+        }
+        runSlowDown()
+    }
+
+    quickSort() {
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        function swap(a, i, j) {
+            let temp = a[i]
+            a[i] = a[j]
+            a[j] = temp
+        }
+
+        async function sort(a, low, high) {
+            if (sortVisualizer.sorting == false) {
+                return
+            }
+            if (high <= low) {
+                return
+            }
+            for (let i = low; i <= high; i++) {
+                allItems[i].style.backgroundColor = GREY
+            }
+            let j = await partition(a, low, high)
+            await sort(a, low, j - 1)
+            await sort(a, j + 1, high)
+        }
+        async function partition(a, low, high) {
+            let i = low
+            let j = high + 1
+            let divider = a[low]
+            allItems[low].style.backgroundColor = RED
+            while (true) {
+                if (sortVisualizer.sorting == false) {
+                    return
+                }
+                do {
+                    i += 1
+                    allItems[i].style.backgroundColor = LIGHTRED
+                    await sleep(180 * sortVisualizer.speed)
+
+                    if (i == high) {
+                        break
+                    }
+                } while (a[i] < divider)
+
+                do {
+                    j -= 1
+                    allItems[j].style.backgroundColor = BLACK
+                    await sleep(180 * sortVisualizer.speed)
+                    if (j == low) {
+                        break
+                    }
+                } while (a[j] > divider)
+
+                if (i >= j) {
+                    break
+                }
+                // Update the sort element heights
+                allItems[i].style.height = `${a[j]}%`
+                allItems[j].style.height = `${a[i]}%`
+                // allItems[i].style.backgroundColor = BLACK
+                // allItems[j].style.backgroundColor = LIGHTRED
+
+                // Update the sort element's hover info (size of the sort element)
+                allItems[j].parentElement.childNodes[0].textContent = a[i]
+                allItems[i].parentElement.childNodes[0].textContent = a[j]
+                swap(a, i, j)
+
+                await sleep(180 * sortVisualizer.speed)
+
+            }
+            // Update the sort element heights
+            allItems[low].style.height = `${a[j]}%`
+            allItems[j].style.height = `${a[low]}%`
+            // Update the sort element's hover info (size of the sort element)
+            allItems[low].parentElement.childNodes[0].textContent = a[j]
+            allItems[j].parentElement.childNodes[0].textContent = a[low]
+
+            allItems[i].style.backgroundColor = LIGHTRED
+            allItems[j].style.backgroundColor = BLACK
+            let partitionerIndex = j
+            swap(a, low, j)
+
+            await sleep(180 * sortVisualizer.speed)
+            for (let index = 0; index <= sortVisualizer.size - 1; index++) {
+                allItems[index].style.backgroundColor = LIGHTBLUE
+            }
+            return j
+        }
+        this.disableButtonsWhenSortingOn()
+        const allItems = visualizerContainer.getElementsByClassName('sort');
+        const runSlowDown = async () => {
+            let low = 0
+            let high = this.size - 1
+            await sort(this.items, low, high)
+            for (let index = 0; index <= sortVisualizer.size - 1; index++) {
+                allItems[index].style.backgroundColor = BLUE
+                await sleep(5)
+            }
+            startBtn.textContent = START
+            this.enableButtonsWhenSortingOff()
+        }
+        runSlowDown()
+    }
+
 
     disableButtonsWhenSortingOn() {
         arraySizeInput.disabled = true
@@ -344,6 +538,12 @@ startBtn.addEventListener('click', function (e) {
         else if (sortVisualizer.algorithm == MERGESORT) {
             sortVisualizer.mergeSort()
         }
+        else if (sortVisualizer.algorithm == MERGESORTNOTRECURSIVE) {
+            sortVisualizer.mergeSortNotRecursive()
+        }
+        else if (sortVisualizer.algorithm == QUICKSORT) {
+            sortVisualizer.quickSort()
+        }
     }
     else if (e.target.textContent == CANCEL) {
         sortVisualizer.sorting = false
@@ -366,6 +566,12 @@ selectBtn.addEventListener('change', function (e) {
     }
     else if (e.target.value == MERGESORT) {
         sortVisualizer.algorithm = MERGESORT
+    }
+    else if (e.target.value == MERGESORTNOTRECURSIVE) {
+        sortVisualizer.algorithm = MERGESORTNOTRECURSIVE
+    }
+    else if (e.target.value == QUICKSORT) {
+        sortVisualizer.algorithm = QUICKSORT
     }
 })
 

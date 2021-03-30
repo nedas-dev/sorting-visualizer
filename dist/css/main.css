@@ -22,7 +22,7 @@ body {
         cursor: pointer; }
     body div#menu div.algo {
       height: 35px;
-      width: 150px;
+      width: 180px;
       text-align: center;
       border-radius: 5px; }
       body div#menu div.algo select.algorithm {
