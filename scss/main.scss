@@ -1,3 +1,4 @@
+@import 'config';
 body{
     background-color: rgb(228, 228, 228);
     div#menu{
@@ -152,3 +153,5 @@ body{
         }
     }
 }
+
+@import 'mobile';

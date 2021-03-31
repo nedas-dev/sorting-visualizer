@@ -128,3 +128,19 @@ body {
         letter-spacing: 1px;
         font-family: sans-serif;
         color: red; }
+
+@media screen and (max-width: 768px) {
+  body #visualizer {
+    width: 99%;
+    height: 70%;
+    min-height: 300px; } }
+
+@media screen and (max-width: 501px) {
+  body div#menu {
+    flex-direction: column; }
+    body div#menu .spacing {
+      margin-bottom: 1rem; }
+  body #visualizer {
+    width: 99%;
+    height: 70%;
+    min-height: 300px; } }

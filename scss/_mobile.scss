@@ -1,0 +1,36 @@
+// Widescreens
+@include mediaXl{
+}
+
+// Desktops & Laptops
+@include mediaLg {
+}
+
+// Tablets & Small Laptops
+@include mediaMd {
+    body{
+        #visualizer{
+            width: 99%;
+            height: 70%;
+            min-height: 300px;
+        }
+    }
+}
+
+// Smartphones
+@include mediaSm{
+    body{
+        div#menu{
+            flex-direction: column;
+            .spacing{
+                margin-bottom: 1rem;
+            }
+        }
+        #visualizer{
+            width: 99%;
+            height: 70%;
+            min-height: 300px;
+        }
+
+    }
+}
