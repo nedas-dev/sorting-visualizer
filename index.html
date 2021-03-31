@@ -1,0 +1,45 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer by nedas-dev</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div id="menu">
+        <div class="basicAdjustBtn sortSpeed">
+            <p>Sort speed</p>
+            <input type="range" min="1" max="100" value="50" class="speed">
+        </div>
+        <div class="basicAdjustBtn arraySize">
+            <p>Array size</p>
+            <input type="range" min="10" max="200" value="50" class="size">
+        </div>
+        <div class="algo">
+            <select name="algorithm" class='algorithm'>
+                <option value="QUICKSORT">Quicksort</option>
+                <option value="MERGESORT-NOT-RECURSIVE">Mergesort (non-recursive)</option>
+                <option value="MERGESORT">Mergesort (recursive)</option>
+                <option value="SHELLSORT">Shellsort </option>
+                <option value="INSERTION">Insertion Sort</option>
+                <option value="SELECTION">Selection Sort</option>
+            </select>
+        </div>
+        <button class='start'>START</button>
+
+    </div>
+
+    <button onclick="sortVisualizer.createRandomSortItems()" class="generate">Generate New Array</button>
+
+    <div id="visualizer">
+        <div class="container">
+            <p class="h" style="display: none;"></p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
