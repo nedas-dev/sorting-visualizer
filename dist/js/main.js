@@ -29,7 +29,7 @@ const CANCEL = 'CANCEL'
 class SortVisualizer {
     constructor(size) {
         this.size = size;
-        this.algorithm = SELECTION
+        this.algorithm = QUICKSORT
         this.items = []
         this.speed = 1
         this.sorting = false
@@ -428,7 +428,16 @@ class SortVisualizer {
             let i = low
             let j = high + 1
             let divider = a[low]
+            // Making the divider red color
             allItems[low].style.backgroundColor = RED
+            // light green laser for divider (so it would be clear what is the height of divider)
+            let dividerLineElement = document.createElement('div')
+            dividerLineElement.className = 'special'
+            let rightX = visualizerContainer.getBoundingClientRect().right
+            let leftX = allItems[low].getBoundingClientRect().left
+            dividerLineElement.style.width = `${rightX - leftX}px`
+            allItems[low].appendChild(dividerLineElement)
+            // END || light green laser for divider (so it would be clear what is the height of divider)
             while (true) {
                 if (sortVisualizer.sorting == false) {
                     return
@@ -475,16 +484,18 @@ class SortVisualizer {
             // Update the sort element's hover info (size of the sort element)
             allItems[low].parentElement.childNodes[0].textContent = a[j]
             allItems[j].parentElement.childNodes[0].textContent = a[low]
-
+            // left side partioner (smaller than divider)
             allItems[i].style.backgroundColor = LIGHTRED
+            // right side partioner (larger than divider)
             allItems[j].style.backgroundColor = BLACK
-            let partitionerIndex = j
             swap(a, low, j)
 
             await sleep(180 * sortVisualizer.speed)
+            allItems[low].removeChild(dividerLineElement)
             for (let index = 0; index <= sortVisualizer.size - 1; index++) {
                 allItems[index].style.backgroundColor = LIGHTBLUE
             }
+
             return j
         }
         this.disableButtonsWhenSortingOn()
@@ -492,11 +503,19 @@ class SortVisualizer {
         const runSlowDown = async () => {
             let low = 0
             let high = this.size - 1
+            shuffleArray(this.items)
+            for (let i = 0; i < this.size; i++) {
+                allItems[i].style.height = `${this.items[i]}%`
+                allItems[i].parentElement.children[0].textContent = `${this.items[i]}`
+            }
             await sort(this.items, low, high)
-            for (let index = 0; index <= sortVisualizer.size - 1; index++) {
+
+            for (let index = 0; index <= this.size - 1; index++) {
                 allItems[index].style.backgroundColor = BLUE
                 await sleep(5)
             }
+
+
             startBtn.textContent = START
             this.enableButtonsWhenSortingOff()
         }

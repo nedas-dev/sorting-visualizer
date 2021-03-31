@@ -74,12 +74,20 @@ body {
         body #visualizer .container .item div.sort {
           width: 100%;
           height: 15%;
-          background-color: #6b83e3; }
+          background-color: #6b83e3;
+          position: relative; }
           body #visualizer .container .item div.sort p {
             height: 100%;
             text-align: center;
             color: #bcdcff;
             font-size: 10px; }
+          body #visualizer .container .item div.sort div.special {
+            position: absolute;
+            height: 1px;
+            width: 95px;
+            background-color: #4af44a;
+            top: 0px;
+            z-index: 3; }
         body #visualizer .container .item span.infoSpan {
           vertical-align: baseline;
           position: absolute;
