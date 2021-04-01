@@ -444,7 +444,9 @@ class SortVisualizer {
                 }
                 do {
                     i += 1
-                    allItems[i].style.backgroundColor = LIGHTRED
+                    if (sortVisualizer.sorting == true) {
+                        allItems[i].style.backgroundColor = LIGHTRED
+                    }
                     await sleep(180 * sortVisualizer.speed)
 
                     if (i == high) {
@@ -454,7 +456,9 @@ class SortVisualizer {
 
                 do {
                     j -= 1
-                    allItems[j].style.backgroundColor = BLACK
+                    if (sortVisualizer.sorting == true) {
+                        allItems[j].style.backgroundColor = BLACK
+                    }
                     await sleep(180 * sortVisualizer.speed)
                     if (j == low) {
                         break
@@ -484,10 +488,12 @@ class SortVisualizer {
             // Update the sort element's hover info (size of the sort element)
             allItems[low].parentElement.childNodes[0].textContent = a[j]
             allItems[j].parentElement.childNodes[0].textContent = a[low]
-            // left side partioner (smaller than divider)
-            allItems[i].style.backgroundColor = LIGHTRED
-            // right side partioner (larger than divider)
-            allItems[j].style.backgroundColor = BLACK
+            if (sortVisualizer.sorting == true) {
+                // left side partioner (smaller than divider)
+                allItems[i].style.backgroundColor = LIGHTRED
+                // right side partioner (larger than divider)
+                allItems[j].style.backgroundColor = BLACK
+            }
             swap(a, low, j)
 
             await sleep(180 * sortVisualizer.speed)
@@ -510,10 +516,18 @@ class SortVisualizer {
             }
             await sort(this.items, low, high)
 
-            for (let index = 0; index <= this.size - 1; index++) {
-                allItems[index].style.backgroundColor = BLUE
-                await sleep(5)
+            if (this.sorting == true) {
+                for (let index = 0; index <= this.size - 1; index++) {
+                    allItems[index].style.backgroundColor = BLUE
+                    await sleep(5)
+                }
             }
+            else {
+                for (let index = 0; index <= this.size - 1; index++) {
+                    allItems[index].style.backgroundColor = LIGHTBLUE
+                }
+            }
+
 
 
             startBtn.textContent = START
