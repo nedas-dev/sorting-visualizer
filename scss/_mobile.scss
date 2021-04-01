@@ -1,19 +1,119 @@
 // Widescreens
 @include mediaXl{
+    body{
+        div#menu{
+            margin:auto;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            width: 80%;
+            grid-template-areas: 
+            "sortSpeed sortSpeed arraySize arraySize"
+            "algo algo algo algo"
+            "start start start start";
+            .spacing{
+                margin-bottom: 1rem;
+            }
+            div.sortSpeed{
+                grid-area: sortSpeed;
+            }
+            div.arraySize{
+                grid-area: arraySize;
+            }
+            div.algo{
+                grid-area: algo;
+                width: 65%;
+            }
+            button.start{
+                grid-area: start;
+                width: 150px;
+            }
+        }
+        #visualizer{
+            min-width: 330px;
+            max-width: 85%;
+            height: 250px;
+        }
+
+    }
 }
 
 // Desktops & Laptops
 @include mediaLg {
+    body{
+        margin:auto;
+        text-align: center;
+        div#menu{
+            margin:auto;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            width: 80%;
+            grid-template-areas: 
+            "sortSpeed sortSpeed arraySize arraySize"
+            "algo algo algo algo"
+            "start start start start";
+            .spacing{
+                margin-bottom: 1rem;
+            }
+            div.sortSpeed{
+                grid-area: sortSpeed;
+            }
+            div.arraySize{
+                grid-area: arraySize;
+            }
+            div.algo{
+                grid-area: algo;
+                width: 65%;
+            }
+            button.start{
+                grid-area: start;
+                width: 150px;
+            }
+        }
+        #visualizer{
+            min-width: 330px;
+            max-width: 85%;
+            height: 250px;
+        }
+
+    }
 }
 
 // Tablets & Small Laptops
 @include mediaMd {
     body{
-        #visualizer{
-            width: 99%;
-            height: 70%;
-            min-height: 300px;
+        div#menu{
+            margin:auto;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            width: 80%;
+            grid-template-areas: 
+            "sortSpeed sortSpeed arraySize arraySize"
+            "algo algo algo algo"
+            "start start start start";
+            .spacing{
+                margin-bottom: 1rem;
+            }
+            div.sortSpeed{
+                grid-area: sortSpeed;
+            }
+            div.arraySize{
+                grid-area: arraySize;
+            }
+            div.algo{
+                grid-area: algo;
+                width: 65%;
+            }
+            button.start{
+                grid-area: start;
+                width: 150px;
+            }
         }
+        #visualizer{
+            min-width: 330px;
+            max-width: 85%;
+            height: 250px;
+        }
+
     }
 }
 
@@ -21,15 +121,36 @@
 @include mediaSm{
     body{
         div#menu{
-            flex-direction: column;
+            margin:auto;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            width: 80%;
+            grid-template-areas: 
+            "sortSpeed sortSpeed arraySize arraySize"
+            "algo algo algo algo"
+            "start start start start";
             .spacing{
                 margin-bottom: 1rem;
             }
+            div.sortSpeed{
+                grid-area: sortSpeed;
+            }
+            div.arraySize{
+                grid-area: arraySize;
+            }
+            div.algo{
+                grid-area: algo;
+                width: 65%;
+            }
+            button.start{
+                grid-area: start;
+                width: 150px;
+            }
         }
         #visualizer{
-            width: 99%;
-            height: 70%;
-            min-height: 300px;
+            min-width: 330px;
+            max-width: 85%;
+            height: 250px;
         }
 
     }

@@ -1,14 +1,18 @@
 @import 'config';
 body{
     background-color: rgb(228, 228, 228);
+    margin:auto;
     div#menu{
-        display: flex;
-        justify-content: space-around;
+        max-width: 700px;
+        margin:auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         align-items: center;
+        justify-items: center;
         border: 1px solid rgb(198, 160, 160);
         padding: 1rem;
         margin-bottom: 2rem;
-        border-radius: 50px;
+        border-radius: 30px;
         box-shadow: 3px 5px 8px rgb(160, 160, 160);
         letter-spacing: 2px;
         button.start{
@@ -39,6 +43,7 @@ body{
             text-align: center;
             border: 1px solid rgb(208, 202, 202);
             border-radius: 5px;
+            width: 140px;
             input:hover{
                 cursor: pointer;
             }
@@ -65,7 +70,9 @@ body{
     }
 
     #visualizer{
+        max-width: 700px;
         margin: auto;
+        margin-bottom: 5rem;
         width: 75vw;
         height: 60vh;
         box-sizing: border-box;

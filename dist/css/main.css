@@ -1,13 +1,17 @@
 body {
-  background-color: #e4e4e4; }
+  background-color: #e4e4e4;
+  margin: auto; }
   body div#menu {
-    display: flex;
-    justify-content: space-around;
+    max-width: 700px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     align-items: center;
+    justify-items: center;
     border: 1px solid #c6a0a0;
     padding: 1rem;
     margin-bottom: 2rem;
-    border-radius: 50px;
+    border-radius: 30px;
     box-shadow: 3px 5px 8px #a0a0a0;
     letter-spacing: 2px; }
     body div#menu button.start {
@@ -33,7 +37,8 @@ body {
     body div#menu div.basicAdjustBtn {
       text-align: center;
       border: 1px solid #d0caca;
-      border-radius: 5px; }
+      border-radius: 5px;
+      width: 140px; }
       body div#menu div.basicAdjustBtn input:hover {
         cursor: pointer; }
   body button.generate {
@@ -52,7 +57,9 @@ body {
     body button.generate:disabled {
       border: 1px solid grey; }
   body #visualizer {
+    max-width: 700px;
     margin: auto;
+    margin-bottom: 5rem;
     width: 75vw;
     height: 60vh;
     box-sizing: border-box;
@@ -129,18 +136,101 @@ body {
         font-family: sans-serif;
         color: red; }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 1171px) {
+  body div#menu {
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 80%;
+    grid-template-areas: "sortSpeed sortSpeed arraySize arraySize" "algo algo algo algo" "start start start start"; }
+    body div#menu .spacing {
+      margin-bottom: 1rem; }
+    body div#menu div.sortSpeed {
+      grid-area: sortSpeed; }
+    body div#menu div.arraySize {
+      grid-area: arraySize; }
+    body div#menu div.algo {
+      grid-area: algo;
+      width: 65%; }
+    body div#menu button.start {
+      grid-area: start;
+      width: 150px; }
   body #visualizer {
-    width: 99%;
-    height: 70%;
-    min-height: 300px; } }
+    min-width: 330px;
+    max-width: 85%;
+    height: 250px; } }
+
+@media screen and (min-width: 769px) and (max-width: 1170px) {
+  body {
+    margin: auto;
+    text-align: center; }
+    body div#menu {
+      margin: auto;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      width: 80%;
+      grid-template-areas: "sortSpeed sortSpeed arraySize arraySize" "algo algo algo algo" "start start start start"; }
+      body div#menu .spacing {
+        margin-bottom: 1rem; }
+      body div#menu div.sortSpeed {
+        grid-area: sortSpeed; }
+      body div#menu div.arraySize {
+        grid-area: arraySize; }
+      body div#menu div.algo {
+        grid-area: algo;
+        width: 65%; }
+      body div#menu button.start {
+        grid-area: start;
+        width: 150px; }
+    body #visualizer {
+      min-width: 330px;
+      max-width: 85%;
+      height: 250px; } }
+
+@media screen and (max-width: 768px) {
+  body div#menu {
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 80%;
+    grid-template-areas: "sortSpeed sortSpeed arraySize arraySize" "algo algo algo algo" "start start start start"; }
+    body div#menu .spacing {
+      margin-bottom: 1rem; }
+    body div#menu div.sortSpeed {
+      grid-area: sortSpeed; }
+    body div#menu div.arraySize {
+      grid-area: arraySize; }
+    body div#menu div.algo {
+      grid-area: algo;
+      width: 65%; }
+    body div#menu button.start {
+      grid-area: start;
+      width: 150px; }
+  body #visualizer {
+    min-width: 330px;
+    max-width: 85%;
+    height: 250px; } }
 
 @media screen and (max-width: 501px) {
   body div#menu {
-    flex-direction: column; }
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 80%;
+    grid-template-areas: "sortSpeed sortSpeed arraySize arraySize" "algo algo algo algo" "start start start start"; }
     body div#menu .spacing {
       margin-bottom: 1rem; }
+    body div#menu div.sortSpeed {
+      grid-area: sortSpeed; }
+    body div#menu div.arraySize {
+      grid-area: arraySize; }
+    body div#menu div.algo {
+      grid-area: algo;
+      width: 65%; }
+    body div#menu button.start {
+      grid-area: start;
+      width: 150px; }
   body #visualizer {
-    width: 99%;
-    height: 70%;
-    min-height: 300px; } }
+    min-width: 330px;
+    max-width: 85%;
+    height: 250px; } }
