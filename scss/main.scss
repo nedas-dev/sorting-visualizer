@@ -2,6 +2,7 @@
 body{
     background-color: rgb(228, 228, 228);
     margin:auto;
+    position: relative;
     div#menu{
         max-width: 800px;
         margin:auto;
@@ -158,6 +159,45 @@ body{
                 color: red;
             }
         }
+    }
+    div#tip{
+        border: 2px solid black;
+        width: 50%;
+        min-width: 300px;
+        max-width: 520px;
+        margin: 1rem auto 1rem auto;
+        position: relative;
+        opacity: 0%;
+        display: none;
+        span#x{
+            font-family: Arial, Helvetica, sans-serif;
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            padding: 2px 4px 2px 4px;
+            border: 1px solid black;
+            border-radius: 5px;
+            &:hover{
+                background-color: rgb(107, 131, 227);
+                color: white;
+                cursor: pointer;
+            }
+        }
+        p{
+            padding: 5px 7px 5px 7px;
+            font-size: 16px;
+            text-align: center;
+        }
+    }
+}
+@keyframes disapear {
+    100%{
+        opacity: 0%;
+    }
+}
+@keyframes appear {
+    100%{
+        opacity: 100%;
     }
 }
 

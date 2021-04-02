@@ -8,7 +8,7 @@ const selectBtn = document.querySelector('select.algorithm')
 const speedInput = document.querySelector('input.speed')
 const arraySizeInput = document.querySelector('input.size')
 const generateNewArrayBtn = document.querySelector('button.generate')
-
+const infoX = document.querySelector('span#x')
 
 const BLUE = 'blue';
 const LIGHTBLUE = 'rgb(107, 131, 227)'
@@ -25,6 +25,7 @@ const MERGESORTNOTRECURSIVE = 'MERGESORT-NOT-RECURSIVE'
 const QUICKSORT = 'QUICKSORT'
 const START = 'START'
 const CANCEL = 'CANCEL'
+
 
 class SortVisualizer {
     constructor(size) {
@@ -641,8 +642,28 @@ visualizer.addEventListener('mouseout', function (e) {
     }
 })
 // ------------------------------------------------------------
+// To make disapear the info element (that you can hover over the elements and see their values)
+infoX.addEventListener('click', (e) => {
+    async function wait() {
+        let infoElement = document.querySelector('div#tip')
+        infoElement.style.animation = 'disapear 2s ease-in forwards'
+        await sleep(500)
+        infoElement.style.display = 'none'
+    }
+    wait()
+})
+// After 10s once the page loads we pop up an information about the posibility to see each sorting element value
+async function tip() {
+    await sleep(10000)
+    let infoElement = document.querySelector('div#tip')
+    infoElement.style.display = 'block'
+    infoElement.style.animation = 'appear 2s ease-in forwards'
+}
+
 
 
 sortVisualizer = new SortVisualizer(50);
 
 window.onload = sortVisualizer.createRandomSortItems()
+
+window.onload = tip()

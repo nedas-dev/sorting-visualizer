@@ -1,6 +1,7 @@
 body {
   background-color: #e4e4e4;
-  margin: auto; }
+  margin: auto;
+  position: relative; }
   body div#menu {
     max-width: 800px;
     margin: auto;
@@ -135,6 +136,39 @@ body {
         letter-spacing: 1px;
         font-family: sans-serif;
         color: red; }
+  body div#tip {
+    border: 2px solid black;
+    width: 50%;
+    min-width: 300px;
+    max-width: 520px;
+    margin: 1rem auto 1rem auto;
+    position: relative;
+    opacity: 0%;
+    display: none; }
+    body div#tip span#x {
+      font-family: Arial, Helvetica, sans-serif;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      padding: 2px 4px 2px 4px;
+      border: 1px solid black;
+      border-radius: 5px; }
+      body div#tip span#x:hover {
+        background-color: #6b83e3;
+        color: white;
+        cursor: pointer; }
+    body div#tip p {
+      padding: 5px 7px 5px 7px;
+      font-size: 16px;
+      text-align: center; }
+
+@keyframes disapear {
+  100% {
+    opacity: 0%; } }
+
+@keyframes appear {
+  100% {
+    opacity: 100%; } }
 
 @media screen and (min-width: 1171px) {
   body div#menu {
